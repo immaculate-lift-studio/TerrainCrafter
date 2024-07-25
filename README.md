@@ -1,4 +1,6 @@
-# Terrain Crafter
+# TerrainCrafter ![terraincrafter_node](https://github.com/user-attachments/assets/cbb9585a-2fff-4b67-b9bc-d1f091b8cd4b)
+
+
 High Performance Procedural Terrain Generation for Godot 4.3
 
 ![Terrain Crafter](https://github.com/user-attachments/assets/2ab4ea7f-b77a-49f5-9ba2-da823b0f6cf7)
