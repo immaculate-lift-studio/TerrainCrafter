@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0ucre5vmr1rl"
-path="res://.godot/imported/terraincrafter_ss.png-477fee03f0fb011ed74b99a0b35bf76e.ctex"
+uid="uid://bu25k4so0xd2q"
+path="res://.godot/imported/terraincrafter_ss.png-36e7a245075817514028a270c6d4c3bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/terraincrafter/assets/icons/terraincrafter_ss.png"
-dest_files=["res://.godot/imported/terraincrafter_ss.png-477fee03f0fb011ed74b99a0b35bf76e.ctex"]
+source_file="res://addons/terraincrafter/assets/screenshots/terraincrafter_ss.png"
+dest_files=["res://.godot/imported/terraincrafter_ss.png-36e7a245075817514028a270c6d4c3bf.ctex"]
 
 [params]
 
