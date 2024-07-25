@@ -1,0 +1,12 @@
+# Input Mappings for Ship Controller
+
+throttle_up
+throttle_down
+pitch_up
+pitch_down
+engine_toggle
+roll_left
+roll_right
+deploy_gear
+anchor
+toggle_debug

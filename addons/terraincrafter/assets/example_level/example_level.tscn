@@ -1,0 +1,168 @@
+[gd_scene load_steps=20 format=3 uid="uid://do7ncqognuvkm"]
+
+[ext_resource type="Script" path="res://addons/terraincrafter/assets/example_level/debug_menu.gd" id="1_5dpd1"]
+[ext_resource type="Script" path="res://addons/terraincrafter/terrain_crafter.gd" id="1_tavr8"]
+[ext_resource type="PackedScene" uid="uid://4eyad0j15nfi" path="res://addons/terraincrafter/assets/example_ship/ship.tscn" id="3_j172u"]
+[ext_resource type="Script" path="res://addons/terraincrafter/assets/example_ship/scripts/ship_camera.gd" id="4_4raas"]
+[ext_resource type="Shader" path="res://addons/terraincrafter/generator_resources/terrain_shader.gdshader" id="5_wqyua"]
+[ext_resource type="Texture2D" uid="uid://cyaltt1kavpdm" path="res://addons/terraincrafter/assets/example_level/textures/mountain.png" id="6_btdeb"]
+[ext_resource type="Texture2D" uid="uid://bd2locnvt74sb" path="res://addons/terraincrafter/assets/example_level/textures/sand.png" id="7_wvqqj"]
+[ext_resource type="Texture2D" uid="uid://n3qqy4edgv8h" path="res://addons/terraincrafter/assets/example_level/textures/grass.png" id="8_f4ivr"]
+[ext_resource type="Shader" path="res://addons/terraincrafter/assets/example_level/water.gdshader" id="9_okvqp"]
+[ext_resource type="Script" path="res://addons/terraincrafter/assets/example_level/water.gd" id="10_1doyu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gpdl0"]
+sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
+sky_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+sky_curve = 0.130583
+ground_bottom_color = Color(0.545098, 0.686275, 0.811765, 1)
+ground_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+
+[sub_resource type="Sky" id="Sky_wbq72"]
+sky_material = SubResource("ProceduralSkyMaterial_gpdl0")
+
+[sub_resource type="Environment" id="Environment_rmk44"]
+background_mode = 2
+sky = SubResource("Sky_wbq72")
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.717219, 0.743973, 0.786011, 1)
+fog_density = 0.9281
+fog_aerial_perspective = 1.0
+fog_sky_affect = 0.0
+fog_depth_begin = 3856.3
+fog_depth_end = 5500.0
+adjustment_enabled = true
+adjustment_brightness = 1.1
+adjustment_saturation = 1.1
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e72jx"]
+noise_type = 0
+frequency = 0.0002
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_w8kbc"]
+size = Vector2(100, 100)
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmwso"]
+render_priority = 0
+shader = ExtResource("5_wqyua")
+shader_parameter/low_height = -287.578
+shader_parameter/medium_height = -140.857
+shader_parameter/high_height = 93.789
+shader_parameter/blend_range = 10.248
+shader_parameter/uv_scale_low = Vector2(10, 10)
+shader_parameter/uv_scale_medium = Vector2(10, 10)
+shader_parameter/uv_scale_high = Vector2(5, 5)
+shader_parameter/roughness_low = 1.0
+shader_parameter/roughness_medium = 1.0
+shader_parameter/roughness_high = 1.0
+shader_parameter/specular_low = 0.0
+shader_parameter/specular_medium = 0.0
+shader_parameter/specular_high = 0.0
+shader_parameter/texture_low = ExtResource("7_wvqqj")
+shader_parameter/texture_medium = ExtResource("8_f4ivr")
+shader_parameter/texture_high = ExtResource("6_btdeb")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_y5lfv"]
+size = Vector2(10000, 10000)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gxwin"]
+render_priority = 1
+shader = ExtResource("9_okvqp")
+shader_parameter/depth_fade_distance = 2.041
+shader_parameter/absorbance = 0.521
+shader_parameter/shallow_color = Color(0.36105, 0.707403, 1, 1)
+shader_parameter/deep_color = Color(0, 0.25, 0.45, 1)
+shader_parameter/foam_amount = 2.0
+shader_parameter/foam_color = Color(1, 1, 1, 1)
+shader_parameter/roughness = 0.819
+shader_parameter/wave_scale = 4.0
+shader_parameter/height_scale = 0.15
+shader_parameter/wave_dir1 = Vector2(1, 0)
+shader_parameter/wave_dir2 = Vector2(0, 1)
+shader_parameter/wave_speed = 0.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_r6gj8"]
+points = PackedVector3Array(-3000, 0, -3000, -3000, 0, 3000, 3000, 0, -3000, 3000, 0, 3000)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rmk44")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 0.642788, -0.766045, 0, 0.766045, 0.642788, 0, 0, 0)
+shadow_enabled = true
+
+[node name="DebugMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_5dpd1")
+terrain_crafter_node = NodePath("../TerrainCrafter")
+player = NodePath("../Player")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ChunksLabel" type="Label" parent="DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "Chunks"
+
+[node name="PositionLabel" type="Label" parent="DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "Position"
+
+[node name="FPSLabel" type="Label" parent="DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "FPS
+"
+
+[node name="TerrainCrafter" type="Node3D" parent="." node_paths=PackedStringArray("base_mesh_instance", "chunks_node")]
+script = ExtResource("1_tavr8")
+player = NodePath("../Player")
+base_mesh_instance = NodePath("BaseMesh")
+chunks_node = NodePath("Chunks")
+noise = SubResource("FastNoiseLite_e72jx")
+
+[node name="Chunks" type="Node3D" parent="TerrainCrafter"]
+
+[node name="BaseMesh" type="MeshInstance3D" parent="TerrainCrafter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
+mesh = SubResource("PlaneMesh_w8kbc")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_xmwso")
+
+[node name="Player" parent="." instance=ExtResource("3_j172u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.075, 279.1, -0.662)
+
+[node name="FollowCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.00165, 17.3471)
+current = true
+fov = 46.3
+far = 5000.0
+script = ExtResource("4_4raas")
+lerp_speed = 30.0
+target_path = NodePath("../Player")
+offset = Vector3(0, 0.255, 2)
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -75.1754, 0)
+layers = 3
+mesh = SubResource("PlaneMesh_y5lfv")
+surface_material_override/0 = SubResource("ShaderMaterial_gxwin")
+script = ExtResource("10_1doyu")
+ship = NodePath("../Player")
+follow_height = -180.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Water"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_r6gj8")

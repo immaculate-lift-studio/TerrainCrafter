@@ -1,0 +1,183 @@
+[gd_scene load_steps=13 format=3 uid="uid://4eyad0j15nfi"]
+
+[ext_resource type="Script" path="res://addons/terraincrafter/assets/example_ship/scripts/ship.gd" id="1_5fdxq"]
+[ext_resource type="PackedScene" uid="uid://dhv3ojlngd2n2" path="res://addons/terraincrafter/assets/example_ship/ship_container.tscn" id="2_ftoi8"]
+[ext_resource type="AudioStream" uid="uid://bv1ttqdos4g8a" path="res://addons/terraincrafter/assets/example_ship/sounds/thrust.wav" id="3_p1528"]
+[ext_resource type="Shader" path="res://addons/terraincrafter/assets/example_ship/gear.gdshader" id="4_imaxr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_5k2ps"]
+radius = 0.225
+height = 0.35
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1n3vm"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_i5vr7"]
+noise = SubResource("FastNoiseLite_1n3vm")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n53cy"]
+noise = SubResource("FastNoiseLite_1n3vm")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yphct"]
+noise = SubResource("FastNoiseLite_1n3vm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7w1jt"]
+render_priority = 1
+shader = ExtResource("4_imaxr")
+shader_parameter/distortionView = 0.075
+shader_parameter/speedView = 0.0
+shader_parameter/tintColor = Color(0.364706, 0.752941, 1, 1)
+shader_parameter/fesnelAmount = 1.0
+shader_parameter/distortionVertex = 0.025
+shader_parameter/speedVertex = 0.23
+shader_parameter/noiseViewX = SubResource("NoiseTexture2D_n53cy")
+shader_parameter/noiseViewY = SubResource("NoiseTexture2D_yphct")
+shader_parameter/noiseVertex = SubResource("NoiseTexture2D_i5vr7")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k5ew4"]
+size = Vector3(2.6, 1, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3vlkr"]
+size = Vector3(0.282, 1.7, 7.325)
+
+[node name="Ship" type="CharacterBody3D" node_paths=PackedStringArray("landing_gear_node", "speed_label", "altitude_label", "direction_label", "engine_power_label", "ground_effect_status_label", "landing_status_label", "gear_status_label", "anchor_status_label", "ship_node", "raycast", "thruster_sound")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0745595, 6.32755, -0.661785)
+collision_layer = 3
+script = ExtResource("1_5fdxq")
+landing_gear_node = NodePath("Ship/LandingGear")
+speed_label = NodePath("CanvasLayer/VBoxContainer/SpeedLabel")
+altitude_label = NodePath("CanvasLayer/VBoxContainer/AltitudeLabel")
+direction_label = NodePath("CanvasLayer/DirectionLabel")
+engine_power_label = NodePath("CanvasLayer/VBoxContainer/EngineLabel")
+ground_effect_status_label = NodePath("CanvasLayer/VBoxContainer/GroundEffectLabel")
+landing_status_label = NodePath("CanvasLayer/VBoxContainer2/LandingStatusLabel")
+gear_status_label = NodePath("CanvasLayer/VBoxContainer2/GearLabel")
+anchor_status_label = NodePath("CanvasLayer/VBoxContainer2/AnchorLabel")
+ship_node = NodePath("Ship")
+raycast = NodePath("Altitude")
+thruster_sound = NodePath("ThrusterSound")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DirectionLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -14.0
+offset_right = 14.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "360
+"
+
+[node name="Controls" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 5.0
+offset_right = -6.0
+offset_bottom = 268.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 11
+text = "Controls:
+R Key - Engine on/off
+WASD - Turn
+Shift - Speed Up
+LControl - Slow Down
+
+When below landing speed:
+G Key - Deploy Landing Gear
+Space - Deploy Anchor
+
+Ground effect will increase lift and provide 
+a cushion of air as you approach the ground
+
+Escape - Exit"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 80.0
+grow_vertical = 0
+
+[node name="AltitudeLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Altitude: 100m"
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Speed: 100 km/s"
+
+[node name="EngineLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Engine Power: 100%"
+
+[node name="GroundEffectLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Ground Effect: On"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -89.0
+offset_right = 121.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="LandingStatusLabel" type="Label" parent="CanvasLayer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Landing Possible"
+horizontal_alignment = 1
+
+[node name="GearLabel" type="Label" parent="CanvasLayer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Gear Deployed"
+horizontal_alignment = 1
+
+[node name="AnchorLabel" type="Label" parent="CanvasLayer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Anchor Available"
+horizontal_alignment = 1
+
+[node name="Ship" parent="." instance=ExtResource("2_ftoi8")]
+
+[node name="LandingGear" type="MeshInstance3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.221594, 0.3)
+mesh = SubResource("SphereMesh_5k2ps")
+surface_material_override/0 = SubResource("ShaderMaterial_7w1jt")
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.2666e-07, 0, 0)
+shape = SubResource("BoxShape3D_k5ew4")
+
+[node name="WingCollisionRight" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.141421, -0.141421, 0, 0.141421, 0.141421, 0, 0, 0, 0.2, 0.34871, -0.142708, -0.3)
+shape = SubResource("BoxShape3D_3vlkr")
+
+[node name="WingCollisionLeft" type="CollisionShape3D" parent="."]
+transform = Transform3D(-0.141421, -0.141421, 0, 0.141421, -0.141421, 0, 0, 0, 0.2, -0.33815, -0.142708, -0.3)
+shape = SubResource("BoxShape3D_3vlkr")
+
+[node name="Altitude" type="RayCast3D" parent="."]
+target_position = Vector3(0, -500, 0)
+debug_shape_custom_color = Color(1, 0, 1, 1)
+debug_shape_thickness = 5
+
+[node name="ThrusterSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_p1528")

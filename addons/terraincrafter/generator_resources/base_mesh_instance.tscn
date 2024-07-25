@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1bavbomwxi8e"]
+
+[ext_resource type="Shader" path="res://addons/terraincrafter/generator_resources/terrain_shader.gdshader" id="1_gn3gs"]
+[ext_resource type="Texture2D" uid="uid://cyaltt1kavpdm" path="res://addons/terraincrafter/assets/example_level/textures/mountain.png" id="2_xfw3j"]
+[ext_resource type="Texture2D" uid="uid://bd2locnvt74sb" path="res://addons/terraincrafter/assets/example_level/textures/sand.png" id="3_055rm"]
+[ext_resource type="Texture2D" uid="uid://n3qqy4edgv8h" path="res://addons/terraincrafter/assets/example_level/textures/grass.png" id="4_3ol6c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn7c3"]
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wmr4n"]
+material = SubResource("StandardMaterial3D_pn7c3")
+size = Vector2(1024, 1024)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vgwo3"]
+render_priority = 0
+shader = ExtResource("1_gn3gs")
+shader_parameter/low_height = 10.0
+shader_parameter/medium_height = 50.0
+shader_parameter/high_height = 90.0
+shader_parameter/blend_range = 5.0
+shader_parameter/uv_scale_low = Vector2(1, 1)
+shader_parameter/uv_scale_medium = Vector2(1, 1)
+shader_parameter/uv_scale_high = Vector2(1, 1)
+shader_parameter/roughness_low = 1.0
+shader_parameter/roughness_medium = 1.0
+shader_parameter/roughness_high = 1.0
+shader_parameter/specular_low = 0.0
+shader_parameter/specular_medium = 0.0
+shader_parameter/specular_high = 0.0
+shader_parameter/texture_low = ExtResource("3_055rm")
+shader_parameter/texture_medium = ExtResource("4_3ol6c")
+shader_parameter/texture_high = ExtResource("2_xfw3j")
+
+[node name="BaseMeshInstance" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_wmr4n")
+surface_material_override/0 = SubResource("ShaderMaterial_vgwo3")

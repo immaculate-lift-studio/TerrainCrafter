@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://blbedyp5apk6p"]
+
+[ext_resource type="Script" path="res://addons/terraincrafter/terrain_crafter.gd" id="1_77scl"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lrua2"]
+noise_type = 3
+frequency = 0.004
+
+[node name="TerrainCrafter" type="Node3D"]
+script = ExtResource("1_77scl")
+noise = SubResource("FastNoiseLite_lrua2")
