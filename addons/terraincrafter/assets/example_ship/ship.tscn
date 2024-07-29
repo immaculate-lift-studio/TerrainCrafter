@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://4eyad0j15nfi"]
+[gd_scene load_steps=17 format=3 uid="uid://4eyad0j15nfi"]
 
 [ext_resource type="Script" path="res://addons/terraincrafter/assets/example_ship/scripts/ship.gd" id="1_5fdxq"]
 [ext_resource type="PackedScene" uid="uid://dhv3ojlngd2n2" path="res://addons/terraincrafter/assets/example_ship/ship_container.tscn" id="2_ftoi8"]
@@ -25,13 +25,101 @@ render_priority = 1
 shader = ExtResource("4_imaxr")
 shader_parameter/distortionView = 0.075
 shader_parameter/speedView = 0.0
-shader_parameter/tintColor = Color(0.364706, 0.752941, 1, 1)
+shader_parameter/tintColor = Color(0, 0.831373, 0.988235, 1)
 shader_parameter/fesnelAmount = 1.0
-shader_parameter/distortionVertex = 0.025
-shader_parameter/speedVertex = 0.23
+shader_parameter/distortionVertex = 0.125
+shader_parameter/speedVertex = 0.035
 shader_parameter/noiseViewX = SubResource("NoiseTexture2D_n53cy")
 shader_parameter/noiseViewY = SubResource("NoiseTexture2D_yphct")
 shader_parameter/noiseVertex = SubResource("NoiseTexture2D_i5vr7")
+
+[sub_resource type="Animation" id="Animation_lnf4j"]
+resource_name = "landing_gear_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LandingGear:transparency")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 3.73213),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LandingGear:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(4.43828),
+"update": 0,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_cy5l7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LandingGear:transparency")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LandingGear:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_pw1m1"]
+resource_name = "landing_gear_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LandingGear:transparency")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.420448, 1.23114),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LandingGear:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x0lip"]
+_data = {
+"RESET": SubResource("Animation_cy5l7"),
+"landing_gear_in": SubResource("Animation_pw1m1"),
+"landing_gear_out": SubResource("Animation_lnf4j")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k5ew4"]
 size = Vector3(2.6, 1, 5)
@@ -39,11 +127,12 @@ size = Vector3(2.6, 1, 5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3vlkr"]
 size = Vector3(0.282, 1.7, 7.325)
 
-[node name="Ship" type="CharacterBody3D" node_paths=PackedStringArray("landing_gear_node", "speed_label", "altitude_label", "direction_label", "engine_power_label", "ground_effect_status_label", "landing_status_label", "gear_status_label", "anchor_status_label", "ship_node", "raycast", "thruster_sound")]
+[node name="Ship" type="CharacterBody3D" node_paths=PackedStringArray("landing_gear_node", "animation_player", "speed_label", "altitude_label", "direction_label", "engine_power_label", "ground_effect_status_label", "landing_status_label", "gear_status_label", "anchor_status_label", "ship_node", "raycast", "thruster_sound")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0745595, 6.32755, -0.661785)
 collision_layer = 3
 script = ExtResource("1_5fdxq")
 landing_gear_node = NodePath("Ship/LandingGear")
+animation_player = NodePath("Ship/GearAnimation")
 speed_label = NodePath("CanvasLayer/VBoxContainer/SpeedLabel")
 altitude_label = NodePath("CanvasLayer/VBoxContainer/AltitudeLabel")
 direction_label = NodePath("CanvasLayer/DirectionLabel")
@@ -158,9 +247,14 @@ horizontal_alignment = 1
 [node name="Ship" parent="." instance=ExtResource("2_ftoi8")]
 
 [node name="LandingGear" type="MeshInstance3D" parent="Ship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.221594, 0.3)
+transform = Transform3D(1.14282, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, -0.191624, 0.3)
 mesh = SubResource("SphereMesh_5k2ps")
 surface_material_override/0 = SubResource("ShaderMaterial_7w1jt")
+
+[node name="GearAnimation" type="AnimationPlayer" parent="Ship"]
+libraries = {
+"": SubResource("AnimationLibrary_x0lip")
+}
 
 [node name="BodyCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.2666e-07, 0, 0)

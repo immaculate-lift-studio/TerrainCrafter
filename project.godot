@@ -14,7 +14,7 @@ config/name="TerrainCrafter"
 config/tags=PackedStringArray("open_source", "released")
 run/main_scene="res://addons/terraincrafter/assets/example_level/example_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://addons/terraincrafter/assets/icons/terraincrafter_node.png"
 
 [display]
 

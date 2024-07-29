@@ -29,6 +29,7 @@ extends CharacterBody3D
 @export var landing_gear_deployed: bool = false
 @export var landing_gear_node: MeshInstance3D
 @export var anchored: bool = false 
+@export var animation_player: AnimationPlayer # Reference to the AnimationPlayer node
 @export_group("Labels")
 @export var speed_label: Label
 @export var altitude_label: Label
@@ -93,7 +94,10 @@ func get_input(delta: float) -> void:
 	if forward_speed < landing_speed_threshold and not anchored:
 		if Input.is_action_just_pressed("deploy_gear"):
 			landing_gear_deployed = not landing_gear_deployed
-			landing_gear_node.visible = landing_gear_deployed
+			if landing_gear_deployed:
+				animation_player.play("landing_gear_out")
+			else:
+				animation_player.play("landing_gear_in")
 	turn_input = Input.get_axis("roll_right", "roll_left")
 	if forward_speed <= 0.5:
 		turn_input = 0.0

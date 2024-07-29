@@ -91,6 +91,73 @@ points = PackedVector3Array(-3000, 0, -3000, -3000, 0, 3000, 3000, 0, -3000, 300
 
 [node name="World" type="Node3D"]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugMenu" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_5dpd1")
+terrain_crafter_node = NodePath("../../TerrainCrafter")
+player = NodePath("../../Player")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DebugMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ChunksLabel" type="Label" parent="CanvasLayer/DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "Chunks"
+
+[node name="PositionLabel" type="Label" parent="CanvasLayer/DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "Position"
+
+[node name="FPSLabel" type="Label" parent="CanvasLayer/DebugMenu/VBoxContainer"]
+layout_mode = 2
+text = "FPS
+"
+
+[node name="LoadingScreen" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/LoadingScreen"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/LoadingScreen/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.5
+offset_top = -11.5
+offset_right = 132.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "LOADING TERRAIN, PLEASE WAIT..."
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rmk44")
 
@@ -98,36 +165,10 @@ environment = SubResource("Environment_rmk44")
 transform = Transform3D(1, 0, 0, 0, 0.642788, -0.766045, 0, 0.766045, 0.642788, 0, 0, 0)
 shadow_enabled = true
 
-[node name="DebugMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 23.0
-script = ExtResource("1_5dpd1")
-terrain_crafter_node = NodePath("../TerrainCrafter")
-player = NodePath("../Player")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="DebugMenu"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ChunksLabel" type="Label" parent="DebugMenu/VBoxContainer"]
-layout_mode = 2
-text = "Chunks"
-
-[node name="PositionLabel" type="Label" parent="DebugMenu/VBoxContainer"]
-layout_mode = 2
-text = "Position"
-
-[node name="FPSLabel" type="Label" parent="DebugMenu/VBoxContainer"]
-layout_mode = 2
-text = "FPS
-"
-
-[node name="TerrainCrafter" type="Node3D" parent="." node_paths=PackedStringArray("base_mesh_instance", "chunks_node")]
+[node name="TerrainCrafter" type="Node3D" parent="." node_paths=PackedStringArray("loading_screen", "base_mesh_instance", "chunks_node")]
 script = ExtResource("1_tavr8")
 player = NodePath("../Player")
+loading_screen = NodePath("../CanvasLayer/LoadingScreen")
 base_mesh_instance = NodePath("BaseMesh")
 chunks_node = NodePath("Chunks")
 noise = SubResource("FastNoiseLite_e72jx")
