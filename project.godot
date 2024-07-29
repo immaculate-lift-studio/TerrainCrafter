@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="TerrainCrafter"
+config/tags=PackedStringArray("open_source", "released")
 run/main_scene="res://addons/terraincrafter/assets/example_level/example_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
