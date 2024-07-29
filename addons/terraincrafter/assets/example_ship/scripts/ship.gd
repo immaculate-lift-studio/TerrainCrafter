@@ -79,7 +79,7 @@ func _ready() -> void:
 	original_volume_db = thruster_sound.volume_db 
 
 func get_input(delta: float) -> void:
-	if Input.is_action_pressed("engine_toggle"):
+	if Input.is_action_just_pressed("engine_toggle"):
 		engine_on = not engine_on
 	if Input.is_action_pressed("throttle_up") and not anchored:
 		target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
