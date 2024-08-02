@@ -84,7 +84,7 @@ https://www.youtube.com/watch?v=7L6ZUYj1hs8
 https://github.com/godotengine/godot/issues/77798#issuecomment-1575222421
 
 ## Contributing
-I'm happy to work with others on this. If you have suggestions or want to improve the code, please reach out to me on my ![Itch.io Page](https://immaculate-lift-studio.itch.io/) or submit an issue/pull request on this repository
+I'm happy to work with others on this. If you have suggestions or want to improve the code, please reach out to me on my ![Itch.io Page](https://immaculate-lift-studio.itch.io/) or submit an issue/pull request on this repository. If you like what I'm doing and want to support me, please [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C8YOTVD)
 
 ## License
 MIT. I hope this helps somebody in their Godot journey!
